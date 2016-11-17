@@ -24,7 +24,7 @@ let logger =  createLogger({
     actions,
     plugins: [logger]
 })
-class RoutePage extends Component {
+class UserPage extends Component {
 
     constructor(props) {
         super(props)
@@ -39,6 +39,6 @@ class RoutePage extends Component {
     }
 }
 
-export default RoutePage
+export default UserPage
 
 

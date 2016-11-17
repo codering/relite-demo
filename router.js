@@ -6,12 +6,12 @@ import IndexRoute from 'react-router/lib/IndexRoute';
 import Link from 'react-router/lib/Link';
 import IndexRedirect from 'react-router/lib/IndexRedirect';
 
-import RoutePage from 'routes/RoutePage'
+import UserPage from 'routes/UserPage'
 
 export default function({ history }) {
   return (
     <Router history={history}>
-      <Route path="/" component={RoutePage} />
+      <Route path="/" component={UserPage} />
     </Router>
   );
 };
