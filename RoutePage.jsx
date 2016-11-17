@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-import { createStore, createLogger } from 'relite'
+import { createLogger } from 'relite'
 
 import container from './hoc/container'
 import User from './User'
