@@ -6,7 +6,7 @@ import IndexRoute from 'react-router/lib/IndexRoute';
 import Link from 'react-router/lib/Link';
 import IndexRedirect from 'react-router/lib/IndexRedirect';
 
-import UserPage from 'routes/UserPage'
+import UserPage from './UserPage'
 
 export default function({ history }) {
   return (
