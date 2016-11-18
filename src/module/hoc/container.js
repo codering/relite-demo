@@ -10,42 +10,37 @@ export default function container({initialState, actions, loggerName, plugins = 
 
     return function withContainer(WrappedComponent) {
 
-        const containerDisplayName = `Container(${getDisplayName(WrappedComponent)})`
-        let store = createStore(actions, initialState)
-
-        if (loggerName) {
-            let logger =  createLogger({ name: loggerName})
-            plugins = [logger].concat(plugins)
-        }
-
-        const unsubscribeList = plugins.map(p => store.subscribe(p))
-
         class Container extends Component {
 
-            static displayName = containerDisplayName
+            static displayName = `Container(${getDisplayName(WrappedComponent)})`
 
             static childContextTypes = {
                 store: storeShape.isRequired
             }
 
             getChildContext() {
-                return { store: store }
+                return { store: this.store }
             }
 
-            componentDidMount() {
-                const unsubscribe= store.subscribe(() => this.forceUpdate())
-                unsubscribeList.push(unsubscribe)
-            }
-            
-            componentWillUnmount() {
-                let i = 0, len = unsubscribeList.length
-                for ( ; i < len; i++ ) {
-                    unsubscribeList[i]()
+            constructor(props, context) {
+                super(props, context)
+                this.store = createStore(actions, initialState)
+                let listeners = []
+                // logger
+                if (loggerName) {
+                    listeners.push(createLogger({ name: loggerName}))
                 }
+                // plugins
+                listeners = listeners.concat(plugins)
+                // current component
+                const componentListener = () => this.forceUpdate()
+                listeners.push(componentListener)
+                // do subscribe
+                listeners.map(listener => this.store.subscribe(listener))
             }
 
             render() {
-                return <WrappedComponent store={store} />
+                return <WrappedComponent store={this.store} />
             }
         }
 
