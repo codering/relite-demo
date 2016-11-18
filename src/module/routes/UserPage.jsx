@@ -13,13 +13,13 @@ const actions = {
     }
 }
 
-const xxPlugin = (data) => console.log(data) 
+//const xxPlugin = (data) => console.log(data) 
 
 @container({
     initialState,
     actions,
     loggerName: 'userLogger',
-    plugins: [xxPlugin]
+  //  plugins: [xxPlugin]
 })
 class UserPage extends Component {
 

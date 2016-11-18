@@ -13,11 +13,9 @@ export default function container({initialState, actions, loggerName, plugins = 
         const containerDisplayName = `Container(${getDisplayName(WrappedComponent)})`
         let store = createStore(actions, initialState)
 
-        if (process.env.NODE_ENV !== 'production') {
-            if (loggerName) {
-                let logger =  createLogger({ name: loggerName})
-                plugins = [logger].concat(plugins)
-            }
+        if (loggerName) {
+            let logger =  createLogger({ name: loggerName})
+            plugins = [logger].concat(plugins)
         }
 
         const unsubscribeList = plugins.map(p => store.subscribe(p))
@@ -40,8 +38,9 @@ export default function container({initialState, actions, loggerName, plugins = 
             }
             
             componentWillUnmount() {
-                for (let unsubscribe of unsubscribeList ) {
-                    unsubscribe()
+                let i = 0, len = unsubscribeList.length
+                for ( ; i < len; i++ ) {
+                    unsubscribeList[i]()
                 }
             }
 
