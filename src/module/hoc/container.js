@@ -6,18 +6,26 @@ function getDisplayName(WrappedComponent) {
   return WrappedComponent.displayName || WrappedComponent.name || 'Component'
 }
 
-export default function container({initialState, actions, plugins = []}) {
+export default function container({initialState, actions, loggerName, plugins = []}) {
 
     return function withContainer(WrappedComponent) {
 
         const containerDisplayName = `Container(${getDisplayName(WrappedComponent)})`
         let store = createStore(actions, initialState)
 
-        plugins.map(p => store.subscribe(p))
+        if (process.env.NODE_ENV !== 'production') {
+            if (loggerName) {
+                let logger =  createLogger({ name: loggerName})
+                plugins = [logger].concat(plugins)
+            }
+        }
+
+        const unsubscribeList = plugins.map(p => store.subscribe(p))
 
         class Container extends Component {
 
             static displayName = containerDisplayName
+
             static childContextTypes = {
                 store: storeShape.isRequired
             }
@@ -27,11 +35,14 @@ export default function container({initialState, actions, plugins = []}) {
             }
 
             componentDidMount() {
-                this.unsubscribe = store.subscribe(() => this.forceUpdate())
+                const unsubscribe= store.subscribe(() => this.forceUpdate())
+                unsubscribeList.push(unsubscribe)
             }
             
             componentWillUnmount() {
-                this.unsubscribe && this.unsubscribe()
+                for (let unsubscribe of unsubscribeList ) {
+                    unsubscribe()
+                }
             }
 
             render() {
@@ -41,10 +52,4 @@ export default function container({initialState, actions, plugins = []}) {
 
         return Container
     }
-    
-
-    
-    
-   
-
 }

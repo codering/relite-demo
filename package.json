@@ -1,0 +1,33 @@
+{
+  "name": "relite-demo",
+  "version": "1.0.0",
+  "description": "把组件简单分类 , 写了两个hoc函数 , [`container`](./hoc/container.js), [`presentational`](./hoc/presentational.js)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "rimraf ./output && fis3 release -cwd output -L",
+    "server": "fis3 server start -p 9090 --www ./output --no-daemon --no-browse"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codering/relite-demo.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/codering/relite-demo/issues"
+  },
+  "homepage": "https://github.com/codering/relite-demo#readme",
+  "dependencies": {
+    "antd": "^1.11.2",
+    "process": "^0.11.9",
+    "react": "^0.14.8",
+    "react-dom": "^0.14.8",
+    "react-router": "^2.8.1",
+    "relite": "^1.0.5"
+  },
+  "devDependencies": {
+    "fis3-cooker": "0.0.10",
+    "rimraf": "^2.5.4"
+  }
+}

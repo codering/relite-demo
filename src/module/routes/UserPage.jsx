@@ -1,9 +1,7 @@
 import React, {Component} from 'react'
 
-import { createLogger } from 'relite'
-
-import container from './hoc/container'
-import User from './User'
+import container from 'hoc/container'
+import User from 'components/User'
 
 let initialState = {
     user: {name: 'test'},
@@ -15,14 +13,13 @@ const actions = {
     }
 }
 
-let logger =  createLogger({
-    name: 'userLogger',
-})
+const xxPlugin = (data) => console.log(data) 
 
 @container({
     initialState,
     actions,
-    plugins: [logger]
+    loggerName: 'userLogger',
+    plugins: [xxPlugin]
 })
 class UserPage extends Component {
 

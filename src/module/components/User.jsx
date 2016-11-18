@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-import presentational from './hoc/presentational'
+import presentational from 'hoc/presentational'
 
 function User(props) {
     const {user, updateUser} = props
